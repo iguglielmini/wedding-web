@@ -6,10 +6,17 @@ import { AddGuestModal } from "../addGuestModal";
 import { useDashboardActions } from "../../../hooks";
 import { useDashboard } from "../../../context/DashboardContext";
 import { cleanPhone } from "../../../utils";
+import { AddExpenseModal } from "../addExpensesModal";
 
 export default function SpeedDialActions() {
-  const { openGuestModal, closeGuestModal, isGuestModalOpen } =
-    useDashboardActions();
+  const {
+    openGuestModal,
+    closeGuestModal,
+    isGuestModalOpen,
+    isExpenseModalOpen,
+    closeExpenseModal,
+    openExpenseModal,
+  } = useDashboardActions();
   const { addGuest } = useDashboard();
 
   const handleSubmit = async (data: {
@@ -38,7 +45,11 @@ export default function SpeedDialActions() {
       name: "Adicionar Convidado",
       handler: openGuestModal,
     },
-    { icon: <AttachMoneyIcon />, name: "Adicionar Despesa", handler: () => {} },
+    {
+      icon: <AttachMoneyIcon />,
+      name: "Adicionar Despesa",
+      handler: openExpenseModal,
+    },
     { icon: <PaymentIcon />, name: "Registrar Pagamento", handler: () => {} },
   ];
 
@@ -63,6 +74,11 @@ export default function SpeedDialActions() {
         open={isGuestModalOpen}
         onClose={closeGuestModal}
         onSubmit={handleSubmit}
+      />
+      <AddExpenseModal
+        open={isExpenseModalOpen}
+        onClose={closeExpenseModal}
+        onSubmit={() => {}}
       />
     </>
   );

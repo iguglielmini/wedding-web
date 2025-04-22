@@ -13,3 +13,4 @@ export { GuestDetailsModal } from "./guestDetailsModal";
 export { GuestEditModal } from "./guestEditModal";
 export { ImportExportSection } from "./importExportSection";
 export { ExpenseChart } from "./ExpenseChart";
+export { AddExpenseModal } from "./addExpensesModal";

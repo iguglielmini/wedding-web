@@ -8,3 +8,4 @@ export { ImageCustom } from "./imageCustom";
 export { Header } from "./header";
 export { TableCustom } from "./tableCustom";
 export { SummaryCard } from "./summaryCard";
+export { InputCurrencyCustom } from "./InputCurrencyCustom";

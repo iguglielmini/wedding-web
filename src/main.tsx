@@ -5,9 +5,12 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import { theme } from "./styles";
 import "./styles/variables.css";
 import "./styles/global.css";
-import { AuthProvider } from "./context/AuthContext.tsx";
-import { DashboardProvider } from "./context/DashboardContext.tsx";
-import { ExpenseTypeProvider } from "./context/ExpenseTypeContext.tsx";
+import {
+  AuthProvider,
+  DashboardProvider,
+  ExpenseProvider,
+  ExpenseTypeProvider,
+} from "./context";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -16,7 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <AuthProvider>
         <DashboardProvider>
           <ExpenseTypeProvider>
-            <App />
+            <ExpenseProvider>
+              <App />
+            </ExpenseProvider>
           </ExpenseTypeProvider>
         </DashboardProvider>
       </AuthProvider>
