@@ -11,7 +11,6 @@ import {
   ExpenseType,
   useExpenseType,
 } from "../../../context/ExpenseTypeContext";
-import { parseCurrency } from "../../../utils";
 
 interface AddExpenseModalProps {
   open: boolean;
@@ -120,11 +119,7 @@ export default function AddExpenseModal({
         <InputCurrencyCustom
           label="Valor Total"
           value={totalValue}
-          onChange={(e) => {
-            const raw = e.target.value;
-            const parsed = parseCurrency(raw);
-            setTotalValue(parsed);
-          }}
+          onChange={setTotalValue}
           sx={{ mt: 2 }}
           fullWidth
           required
@@ -132,11 +127,7 @@ export default function AddExpenseModal({
         <InputCurrencyCustom
           label="Valor Pago"
           value={paidValue}
-          onChange={(e) => {
-            const raw = e.target.value;
-            const parsed = parseCurrency(raw);
-            setPaidValue(parsed);
-          }}
+          onChange={setPaidValue}
           sx={{ mt: 2, mb: 2 }}
           fullWidth
           required

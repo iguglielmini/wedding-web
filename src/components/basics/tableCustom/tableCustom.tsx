@@ -109,21 +109,27 @@ export function TableCustom<T extends { [key: string]: any }>({
                     );
                   })}
                   <TableCell align="center">
-                    <Tooltip title="Visualizar">
-                      <IconButton onClick={() => onView?.(row)}>
-                        <VisibilityIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Editar">
-                      <IconButton onClick={() => onEdit?.(row)}>
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Excluir">
-                      <IconButton onClick={() => onDelete?.(row)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
+                    {onView && (
+                      <Tooltip title="Visualizar">
+                        <IconButton onClick={() => onView(row)}>
+                          <VisibilityIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                    {onEdit && (
+                      <Tooltip title="Editar">
+                        <IconButton onClick={() => onEdit(row)}>
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                    {onDelete && (
+                      <Tooltip title="Excluir">
+                        <IconButton onClick={() => onDelete(row)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

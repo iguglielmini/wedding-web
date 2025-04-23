@@ -7,6 +7,8 @@ import { useDashboardActions } from "../../../hooks";
 import { useDashboard } from "../../../context/DashboardContext";
 import { cleanPhone } from "../../../utils";
 import { AddExpenseModal } from "../addExpensesModal";
+import { useExpense } from "../../../context";
+import { AddPayModal } from "../addPaymodal";
 
 export default function SpeedDialActions() {
   const {
@@ -16,8 +18,12 @@ export default function SpeedDialActions() {
     isExpenseModalOpen,
     closeExpenseModal,
     openExpenseModal,
+    isPaymentModalOpen,
+    closePaymentModal,
+    openPaymentModal,
   } = useDashboardActions();
   const { addGuest } = useDashboard();
+  const { addExpense, payExpense, expenses } = useExpense();
 
   const handleSubmit = async (data: {
     name: string;
@@ -39,6 +45,23 @@ export default function SpeedDialActions() {
     closeGuestModal();
   };
 
+  const handleAddExpense = async (data: {
+    description: string;
+    expenseTypeId: string;
+    totalValue: number;
+    paidValue: number;
+  }) => {
+    await addExpense({
+      date: new Date().toISOString().split("T")[0], // ou outro formato conforme o form
+      description: data.description,
+      totalValue: data.totalValue,
+      paidValue: data.paidValue,
+      type: data.expenseTypeId,
+    });
+
+    closeExpenseModal();
+  };
+
   const actions = [
     {
       icon: <PersonAddIcon />,
@@ -50,7 +73,11 @@ export default function SpeedDialActions() {
       name: "Adicionar Despesa",
       handler: openExpenseModal,
     },
-    { icon: <PaymentIcon />, name: "Registrar Pagamento", handler: () => {} },
+    {
+      icon: <PaymentIcon />,
+      name: "Registrar Pagamento",
+      handler: openPaymentModal,
+    },
   ];
 
   return (
@@ -78,7 +105,14 @@ export default function SpeedDialActions() {
       <AddExpenseModal
         open={isExpenseModalOpen}
         onClose={closeExpenseModal}
-        onSubmit={() => {}}
+        onSubmit={handleAddExpense}
+      />
+
+      <AddPayModal
+        open={isPaymentModalOpen}
+        onClose={closePaymentModal}
+        onSubmit={(id, amount) => payExpense(id, amount)}
+        expenses={expenses}
       />
     </>
   );

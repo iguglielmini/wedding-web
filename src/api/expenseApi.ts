@@ -104,3 +104,15 @@ export async function registerPayment(id: string | number, amount: number) {
   const data = await res.json();
   return data.data;
 }
+
+export async function deleteExpenseById(id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+    headers: authHeader(),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Erro ao deletar despesa");
+  }
+}

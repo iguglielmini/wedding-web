@@ -12,6 +12,7 @@ import {
   getExpenseById,
   getExpenseSummary,
   registerPayment,
+  deleteExpenseById as deleteExpenseApi,
 } from "../api/";
 import { Expense, ExpenseSummary } from "../api/";
 import { AlertMessage } from "../components/basics";
@@ -27,6 +28,7 @@ interface ExpenseContextType {
       type: string;
     }
   ) => Promise<void>;
+  deleteExpense: (id: number) => Promise<void>;
   getExpenseDetails: (id: number) => Promise<Expense | null>;
   payExpense: (id: number, amount: number) => Promise<void>;
 }
@@ -78,6 +80,16 @@ export const ExpenseProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const deleteExpense: ExpenseContextType["deleteExpense"] = async (id) => {
+    try {
+      await deleteExpenseApi(id);
+      setExpenses((prev) => prev.filter((e) => e.id !== id));
+      showAlert("Despesa removida com sucesso!", "success");
+    } catch (error: any) {
+      showAlert(error.message, "error");
+    }
+  };
+
   const getExpenseDetails: ExpenseContextType["getExpenseDetails"] = async (
     id
   ) => {
@@ -112,6 +124,7 @@ export const ExpenseProvider = ({ children }: { children: ReactNode }) => {
         fetchExpenses,
         fetchExpenseSummary,
         addExpense,
+        deleteExpense,
         getExpenseDetails,
         payExpense,
       }}

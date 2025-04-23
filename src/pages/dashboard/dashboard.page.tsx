@@ -1,14 +1,34 @@
+import { useEffect, useState } from "react";
 import { Box, Divider, Paper, Typography } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import { useDashboard } from "../../context";
+import { useDashboard, useExpense } from "../../context";
 import { ExpenseChart, GuestSummary } from "../../components/compositives";
-import { mockExpenses } from "../../mocks";
+import { ChartData } from "../../@types";
+
+
 
 export default function DashboardPage() {
   const lastUpdate = new Date().toISOString();
 
   const { totalGuestsCount, confirmedGuestsCount, unconfirmedGuestsCount } =
     useDashboard();
+
+  const { expenses, fetchExpenses } = useExpense();
+  const [chartData, setChartData] = useState<ChartData[]>([]);
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  useEffect(() => {
+    const mapped = expenses.map((item) => ({
+      type: item.type.name,
+      totalValue: item.totalValue,
+      paidValue: item.paidValue,
+      date: item.date,
+    }));
+    setChartData(mapped);
+  }, [expenses]);
 
   return (
     <Box p={4}>
@@ -48,7 +68,7 @@ export default function DashboardPage() {
         lastUpdate={lastUpdate}
       />
 
-      <ExpenseChart expenses={mockExpenses} />
+      <ExpenseChart expenses={chartData} />
     </Box>
   );
 }
